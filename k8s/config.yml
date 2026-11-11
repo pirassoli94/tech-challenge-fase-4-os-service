@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: os-service-config
+data:
+  DB_HOST: postgres-os
+  DB_PORT: "5432"
+  DB_NAME: os_service_db
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: os-service-secret
+type: Opaque
+stringData:
+  DB_USER: SUBSTITUIR
+  DB_PASSWORD: SUBSTITUIR
