@@ -1,0 +1,50 @@
+
+> os-service@1.0.0 test
+> jest --runInBand --coverage
+
+  console.error
+    ◇ injected env (0) from .env
+
+    [0m [90m 3 |[39m
+     [90m 4 |[39m [90m// Carrega as configurações armazenadas no arquivo .env[39m
+    [31m[1m>[22m[39m[90m 5 |[39m require([32m"dotenv"[39m)[33m.[39mconfig()[33m;[39m
+     [90m   |[39m                   [31m[1m^[22m[39m
+     [90m 6 |[39m
+     [90m 7 |[39m [90m// Importa a ferramenta Pool da biblioteca pg[39m
+     [90m 8 |[39m [90m// O Pool permite que o Node.js se conecte ao PostgreSQL[39m[0m
+
+      at ie (node_modules/dotenv/dist/index.cjs:7:155)
+      at Object.ae [as configDotenv] (node_modules/dotenv/dist/index.cjs:7:1128)
+      at Object.le [as config] (node_modules/dotenv/dist/index.cjs:7:1237)
+      at Object.config (index.js:5:19)
+      at Object.require (index.test.js:10:23)
+
+  console.log
+    Conexão com o PostgreSQL realizada com sucesso!
+
+      at log (index.js:23:13)
+
+PASS ./index.test.js
+  OS Service
+    √ GET / deve informar que o serviço está funcionando (21 ms)
+    √ POST /ordens deve criar uma nova ordem (22 ms)
+    √ POST /ordens deve retornar 400 quando faltar campo obrigatório (5 ms)
+    √ GET /ordens deve listar as ordens (6 ms)
+    √ GET /ordens/:id deve buscar uma ordem existente (6 ms)
+    √ GET /ordens/:id deve retornar 404 para ordem inexistente (5 ms)
+    √ PATCH /ordens/:id/status deve atualizar o status (7 ms)
+    √ PATCH /ordens/:id/status deve rejeitar status inválido (4 ms)
+    √ PATCH /ordens/:id/status deve exigir o status (5 ms)
+    √ PATCH /ordens/:id/status deve retornar 404 para ordem inexistente (5 ms)
+
+----------|---------|----------|---------|---------|----------------------------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                      
+----------|---------|----------|---------|---------|----------------------------------------
+All files |      80 |    93.33 |      75 |      80 |                                        
+ index.js |      80 |    93.33 |      75 |      80 | 26,57-60,89-92,123-126,186-189,197-198 
+----------|---------|----------|---------|---------|----------------------------------------
+Test Suites: 1 passed, 1 total
+Tests:       10 passed, 10 total
+Snapshots:   0 total
+Time:        0.975 s, estimated 2 s
+Ran all test suites.
