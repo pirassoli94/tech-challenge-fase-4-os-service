@@ -1,0 +1,114 @@
+﻿{
+    "variable":  [
+                     {
+                         "key":  "os_url",
+                         "value":  "http://localhost:3100"
+                     }
+                 ],
+    "info":  {
+                 "description":  "Rotas do microsserviço de ordens de serviço.",
+                 "name":  "Tech Challenge Fase 4 - OS Service",
+                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+             },
+    "item":  [
+                 {
+                     "name":  "Health Check",
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  {
+                                                 "host":  [
+                                                              "{{os_url}}/"
+                                                          ],
+                                                 "raw":  "{{os_url}}/"
+                                             },
+                                     "header":  [
+
+                                                ]
+                                 }
+                 },
+                 {
+                     "name":  "Listar ordens",
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  {
+                                                 "host":  [
+                                                              "{{os_url}}/ordens"
+                                                          ],
+                                                 "raw":  "{{os_url}}/ordens"
+                                             },
+                                     "header":  [
+
+                                                ]
+                                 }
+                 },
+                 {
+                     "name":  "Buscar ordem",
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  {
+                                                 "host":  [
+                                                              "{{os_url}}/ordens/1"
+                                                          ],
+                                                 "raw":  "{{os_url}}/ordens/1"
+                                             },
+                                     "header":  [
+
+                                                ]
+                                 }
+                 },
+                 {
+                     "name":  "Criar ordem",
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\n  \"cliente\": \"Matheus\",\n  \"veiculo\": \"Honda Civic\",\n  \"problema\": \"Freio fazendo barulho\"\n}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "POST",
+                                     "url":  {
+                                                 "host":  [
+                                                              "{{os_url}}/ordens"
+                                                          ],
+                                                 "raw":  "{{os_url}}/ordens"
+                                             },
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 }
+                 },
+                 {
+                     "name":  "Atualizar status da ordem",
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\n  \"status\": \"FINALIZADA\"\n}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "PATCH",
+                                     "url":  {
+                                                 "host":  [
+                                                              "{{os_url}}/ordens/1/status"
+                                                          ],
+                                                 "raw":  "{{os_url}}/ordens/1/status"
+                                             },
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 }
+                 }
+             ]
+}
