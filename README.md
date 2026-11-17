@@ -1,40 +1,63 @@
-# os-service
+﻿# OS Service — Tech Challenge FIAP Fase 4
 
-Microsservico da Fase 4 do Tech Challenge SOAT.
+## Visão geral
+Microsserviço responsável pelo gerenciamento das ordens de serviço de uma oficina mecânica.
 
-## Execucao local
+Tecnologias: Node.js, Express, PostgreSQL, Docker e Kubernetes.
 
-`ash
-npm ci
-npm test -- --coverage
-node index.js
-`
+## Arquitetura
+O OS Service mantém as ordens de serviço em um banco PostgreSQL independente.
+
+Integra-se ao fluxo distribuído da oficina por meio de APIs REST. O Billing Service gerencia orçamentos e pagamentos, enquanto o Execution Service gerencia diagnósticos e reparos.
+
+## Saga Pattern
+O projeto utiliza uma abordagem híbrida, combinando comunicação HTTP e eventos assíncronos pelo RabbitMQ.
+
+No fluxo de sucesso, após a conclusão do reparo, o Execution Service chama a API do OS Service para atualizar a ordem para FINALIZADA.
+
+No fluxo de compensação, uma falha na execução provoca o cancelamento da ordem de serviço. O Billing Service também recebe um evento de falha para iniciar o cancelamento do pagamento.
+
+O cancelamento financeiro é representado pelo status CANCELAMENTO_PENDENTE; não equivale a um estorno efetivamente realizado.
+
+## API
+Porta padrão: 3000.
+
+Principais operações:
+- POST /ordens — criar ordem de serviço.
+- GET /ordens/:id — consultar ordem.
+- PATCH /ordens/:id/status — atualizar status.
+
+A collection Postman está disponível no diretório postman/.
+
+## Execução local
+Instalar dependências: npm ci
+
+Executar testes: npm run test:coverage
+
+Iniciar aplicação: node index.js
 
 ## Docker
-
-`ash
-docker build -t os-service:1.0 .
-docker run --env-file .env.docker -p 3000:3000 os-service:1.0
-`
+Construir imagem: docker build -t os-service:1.0 .
 
 ## Kubernetes
+Os manifestos estão no diretório k8s/.
 
-Os manifestos estao em k8s/. Substitua os valores SUBSTITUIR antes do deploy.
+O serviço foi validado em um cluster Kubernetes local utilizando Docker Desktop.
 
-`ash
-kubectl apply -f k8s/
-kubectl rollout status deployment/os-service
-`
+## Testes e qualidade
+Os testes automatizados utilizam Jest, com cobertura mínima de 80% verificada pelo pipeline.
+
+O projeto utiliza SonarQube Cloud para análise de qualidade.
+
+O relatório de cobertura está disponível no arquivo cobertura-os.txt.
 
 ## CI/CD
+O workflow .github/workflows/ci-cd.yml executa instalação de dependências, testes automatizados, análise SonarQube, publicação de cobertura e build Docker.
 
-O workflow .github/workflows/ci-cd.yml executa instalacao, testes com cobertura minima de 80%, upload do relatorio e build Docker. O deploy em Kubernetes e habilitado quando o secret KUBE_CONFIG estiver configurado no GitHub.
+O job de deploy Kubernetes depende da configuração do segredo KUBE_CONFIG no GitHub Actions.
 
-## Cobertura
+## Observabilidade
+O serviço disponibiliza métricas pela rota GET /metrics e utiliza logs estruturados para auxiliar o monitoramento.
 
-A evidencia local esta no arquivo cobertura-os.txt.
-
-## Seguranca
-
-Arquivos .env, .env.docker, .env.test, 
-ode_modules/ e coverage/ nao sao versionados.
+## Segurança
+Arquivos de ambiente, credenciais, tokens e dependências instaladas não devem ser publicados no repositório.
