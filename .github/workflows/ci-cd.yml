@@ -70,7 +70,7 @@ jobs:
 
     defaults:
       run:
-        shell: powershell
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
 
     steps:
       - name: Baixar codigo
